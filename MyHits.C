@@ -33,21 +33,33 @@ MyHits::~MyHits()
     delete hTheta;
 }
 
-void MyHits::CalculateNewHitPoints(TLorentzVector &h, const TLorentzVector &source)
+TLorentzVector MyHits::CalculateNewHitPoints(TLorentzVector h, const TLorentzVector source)
 {
-    TLorentzVector r = h-source;
-    double x = r.X();
-    double y = r.Y();
-    double z = r.Z();
-    double s = R/(r.X()*r.X()+r.Y()+r.Y());
-    h = r*s + source;
-    if(TMath::Abs(h.Z()) > L/2.0);
+    TLorentzVector r(h.X()-source.X(), h.Y()-source.Y(), h.Z()-source.Z(), 0.0);
+    double rx = r.X();
+    double ry = r.Y();
+    double rz = r.Z();
+    double xs = source.X();
+    double ys = source.Y();
+    double zs = source.Z();
+    double Rs2 = (xs*xs+ys*ys);
+    double delta = 4*((xs*rx+ys*ry)*(xs*rx+ys*ry) -  (rx*rx+ry*ry)*(Rs2-R*R));
+    double s = (-2*((xs*rx+ys*ry))+TMath::Sqrt(delta))/2.0/(rx*rx+ry*ry);
+//    cout<<"Rs="<<TMath::Sqrt(Rs2)<<" R="<<R<<" ";
+//    cout<<"delta="<<delta<<" s="<<s<<" ";
+    TLorentzVector hh = r*s + source;
+//    cout<<TMath::Abs(hh.Mag())<<" ";
+    if(TMath::Abs(hh.Z()) > L/2.0)
     {
-        h.SetX(0);
-        h.SetY(0);
-        h.SetZ(0);
-        h.SetT(0);
+//        cout<<"W IFIE! ";
+        hh.SetX(0);
+        hh.SetY(0);
+        hh.SetZ(0);
+        hh.SetT(0);
     }
+    else
+        ;//cout<<"Poza ifem ";
+    return hh;
 }
 
 void MyHits::Loop() {
@@ -203,7 +215,7 @@ void MyHits::Loop() {
 
       if (fabs(last_time-time)<TIME_WINDOW)
       {
-          if (hit_is_proper)
+          if (hit_is_proper)// and h.nCrystalCompton==1)
           {
              //wypelnianie tablicy hits kandydatami na koincydencje
               hits.push_back(h);
@@ -211,10 +223,10 @@ void MyHits::Loop() {
               TLorentzVector source(h.sourcePosX, h.sourcePosY, h.sourcePosZ, 0.0);
               TLorentzVector v1 = v10-source;
 
-//              CalculateNewHitPoints(v10, source);
+              v10 = CalculateNewHitPoints(v10, source);
               double cc = 0;
-              double dd = 5;
-              if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd))
+              double dd = 250;
+              if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
 //              if(v10.Mag() != 0)
               {
                   hPhi->Fill(v1.Phi()); //wzgledem zrodla
@@ -233,17 +245,17 @@ void MyHits::Loop() {
           ea.analyze_event(hits, h12, hPhi, hCosTheta, hPos, hTheta, hEdep);
         }
         hits.clear();
-        if (hit_is_proper)
+        if (hit_is_proper)// and h.nCrystalCompton==1)
         {
             //dodaj pierwsza gamme z nowego eventu do hits
             hits.push_back(h);
             TLorentzVector v10(h.posX, h.posY, h.posZ, 0.0);
             TLorentzVector source(h.sourcePosX, h.sourcePosY, h.sourcePosZ, 0.0);
             TLorentzVector v1 = v10-source;
-//            CalculateNewHitPoints(v10, source);
+            v10 = CalculateNewHitPoints(v10, source);
             double cc = 0;
-            double dd = 5;
-            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd))
+            double dd = 250;
+            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
 //            if(v10.Mag() != 0)
             {
                 hPhi->Fill(v1.Phi());

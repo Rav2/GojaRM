@@ -15,7 +15,7 @@ class MyHits : public Hits
         TH3F* hPos;
         TH1F* hTheta;
 
-        void CalculateNewHitPoints(TLorentzVector &v1, const TLorentzVector &source);
+        TLorentzVector CalculateNewHitPoints(TLorentzVector v1, const TLorentzVector source);
 
         MyHits();
         virtual ~MyHits();

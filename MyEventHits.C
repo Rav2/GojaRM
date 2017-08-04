@@ -81,7 +81,7 @@ void MyEventHits::Loop()
            TLorentzVector v10(fHitPoint_[0].X(), fHitPoint_[0].Y(), fHitPoint_[0].Z(), 0.0);
            TLorentzVector v20(fHitPoint_[1].X(), fHitPoint_[1].Y(), fHitPoint_[1].Z(), 0.0);
            double cc = 0;
-           double dd = 5;
+           double dd = 250;
 //           if((v10.Z()>-dd && v10.Z()<-cc) || (v20.Z()>-dd && v20.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) || (v20.Z()>cc && v20.Z()<dd))
 //           {
                if(fPassFlag_&& fEdep_[0]>COMPTON_E_TH_0 && fEdep_[1]>COMPTON_E_TH_0) hRoot12->Fill((v1).Angle((v2).Vect()));
