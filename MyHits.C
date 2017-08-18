@@ -131,9 +131,13 @@ void MyHits::Loop() {
            //wypelnianie tablicy hits kandydatami na koincydencje
             hits.push_back(h);
             TLorentzVector v10(h.posX, h.posY, h.posZ, 0.0);
-            double cc = 240;
+            TLorentzVector source(h.sourcePosX, h.sourcePosY, h.sourcePosZ, 0.0);
+            TLorentzVector v1 = v10-source;
+            v10 = CalculateNewHitPoints(v10, source);
+            double cc = 0;
             double dd = 250;
-//            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd))
+            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
+//            if(v10.Mag() != 0)
             {
                 hPhi->Fill(v10.Phi());
                 hCosTheta->Fill(v10.CosTheta());
@@ -158,9 +162,13 @@ void MyHits::Loop() {
             //dodaj pierwsza gamme z nowego eventu do hits
             hits.push_back(h);
             TLorentzVector v10(h.posX, h.posY, h.posZ, 0.0);
-            double cc = 240;
+            TLorentzVector source(h.sourcePosX, h.sourcePosY, h.sourcePosZ, 0.0);
+            TLorentzVector v1 = v10-source;
+            v10 = CalculateNewHitPoints(v10, source);
+            double cc = 0;
             double dd = 250;
-//            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd))
+            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
+//            if(v10.Mag() != 0)
             {
                 hPhi->Fill(v10.Phi());
                 hCosTheta->Fill(v10.CosTheta());
@@ -229,7 +237,7 @@ void MyHits::Loop() {
               if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
 //              if(v10.Mag() != 0)
               {
-                  hPhi->Fill(v1.Phi()); //wzgledem zrodla
+                  hPhi->Fill(v10.Phi()); //wzgledem zrodla
                   hCosTheta->Fill(v10.CosTheta()); //wzgledem srodka
                   hPos->Fill(v10.X(), v10.Y(), v10.Z()); //wzgledem srodka
                   hTheta->Fill(v10.Theta()); //wzgledem srodka
@@ -258,7 +266,7 @@ void MyHits::Loop() {
             if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
 //            if(v10.Mag() != 0)
             {
-                hPhi->Fill(v1.Phi());
+                hPhi->Fill(v10.Phi());
                 hCosTheta->Fill(v10.CosTheta());
                 hPos->Fill(v10.X(), v10.Y(), v10.Z());
                 hTheta->Fill(v10.Theta());

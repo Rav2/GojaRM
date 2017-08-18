@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Wed Aug  2 11:12:14 2017 by ROOT version 6.08/06
+// Fri Aug 18 10:10:26 2017 by ROOT version 6.08/06
 // from TTree tree/Tree with events and histograms
 // found on file: side.root
 //////////////////////////////////////////////////////////
@@ -12,10 +12,10 @@
 #include <TChain.h>
 #include <TFile.h>
 #include <TLorentzVector.h>
+#include <vector>
 
 // Header file for the classes stored in the TTree if any.
 #include "TObject.h"
-#include <vector>
 
 class EventHits {
 public :
@@ -82,7 +82,7 @@ public :
 #endif
 
 #ifdef EventHits_cxx
-EventHits::EventHits(TTree *tree) : fChain(0)
+EventHits::EventHits(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -91,7 +91,7 @@ EventHits::EventHits(TTree *tree) : fChain(0)
       if (!f || !f->IsOpen()) {
          f = new TFile("side.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("side.root:/218.65_0_0_0_0_0");
+      TDirectory * dir = (TDirectory*)f->Get("side.root:/400_0_0_0_0_0");
       dir->GetObject("tree",tree);
 
    }

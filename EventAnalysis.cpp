@@ -207,7 +207,7 @@ void EventAnalysis::analyze_event(vector< Hit > hits, TH1F* h12, TH1F* hPhi, TH1
 //             cout<<"angle3="<<v2.Angle(v1.Vect())<<" ";
 //          else
 //          {
-              double cc = 240;
+              double cc = 0;
               double dd = 250;
 //              if((v10.Z()>-dd && v10.Z()<-cc) || (v20.Z()>-dd && v20.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) || (v20.Z()>cc && v20.Z()<dd))
               if(verify_type_of_coincidence(hit1, hit2)==1) //tylko true coincidences

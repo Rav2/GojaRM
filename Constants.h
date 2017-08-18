@@ -2,7 +2,7 @@
 // CONSTANTS
 //================================================================================
 
-#define EVENTS_SEPARATION_USING_IDS_OF_EVENTS 0
+#define EVENTS_SEPARATION_USING_IDS_OF_EVENTS 1
 
 #define EVENTS_SEPARATION_USING_TIME_WINDOW 1-EVENTS_SEPARATION_USING_IDS_OF_EVENTS
 #define TIME_WINDOW 3e-9 // in s

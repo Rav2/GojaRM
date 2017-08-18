@@ -82,13 +82,13 @@ void MyEventHits::Loop()
            TLorentzVector v20(fHitPoint_[1].X(), fHitPoint_[1].Y(), fHitPoint_[1].Z(), 0.0);
            double cc = 0;
            double dd = 250;
-//           if((v10.Z()>-dd && v10.Z()<-cc) || (v20.Z()>-dd && v20.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) || (v20.Z()>cc && v20.Z()<dd))
-//           {
+           if((v10.Z()>-dd && v10.Z()<-cc) || (v20.Z()>-dd && v20.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) || (v20.Z()>cc && v20.Z()<dd))
+           {
                if(fPassFlag_&& fEdep_[0]>COMPTON_E_TH_0 && fEdep_[1]>COMPTON_E_TH_0) hRoot12->Fill((v1).Angle((v2).Vect()));
 
                if(fCutPassing_[0] && fEdep_[0]>COMPTON_E_TH_0 && ((v10.Z()>cc && v10.Z()<dd) ||  (v10.Z()<-cc && v10.Z()>-dd)))
                {
-                   hRootPhi->Fill(v1.Phi());
+                   hRootPhi->Fill(v10.Phi());
                    hRootCosTheta->Fill((v10).CosTheta());
                    hRootEdepPre->Fill(fEdep_[0]);
                    hRootEdep->Fill(fEdepSmear_[0]);
@@ -97,14 +97,14 @@ void MyEventHits::Loop()
                }
                if(fCutPassing_[1] && fEdep_[1]>COMPTON_E_TH_0 && ((v20.Z()>cc && v20.Z()<dd) ||  (v20.Z()<-cc && v20.Z()>-dd)))
                {
-                   hRootPhi->Fill((v2).Phi()); //wzgledem zrodla
+                   hRootPhi->Fill((v20).Phi()); //wzgledem zrodla
                    hRootCosTheta->Fill((v20).CosTheta()); //wzgledem srodka
                    hRootEdepPre->Fill(fEdep_[1]);
                    hRootEdep->Fill(fEdepSmear_[1]);
                    hRootTheta->Fill(v20.Theta()); //wzgledem srodka
                    hRootPos->Fill(v20.X(), v20.Y(), v20.Z()); //wzgledem srodka
                }
-//           }
+           }
 
 
 

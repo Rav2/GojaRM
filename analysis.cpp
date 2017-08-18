@@ -23,7 +23,7 @@ void drawPhi(TH1F* hPhi, TH1F* hRootPhi)
 
     TCanvas* cphi = new TCanvas("cphi", "cphi", 600, 800);
     cphi->Divide(1,2);
-    TLegend* legPhi = new TLegend(0.35, 0.2, 0.65, 0.5);
+    TLegend* legPhi = new TLegend(0.15, 0.6, 0.35, 0.8);
     cphi->cd(1);
     hPhi->Scale(1.0/hPhi->Integral());
     hPhi->SetLineColor(kBlue);
@@ -37,7 +37,7 @@ void drawPhi(TH1F* hPhi, TH1F* hRootPhi)
 //    hRootPhi->Sumw2();
     hRootPhi->Draw("same");
     legPhi -> AddEntry(hRootPhi, "ROOT");
-//    legPhi->Draw();
+    legPhi->Draw();
     cphi->cd(2);
     TH1F* hPhiDiff = new TH1F("hPhiDiff", "hPhiDiff", 100, -TMath::Pi()-0.2, TMath::Pi()+0.2);
     hPhiDiff->GetXaxis()->SetTitle("#phi");
@@ -336,8 +336,8 @@ int main (int argc, char* argv[]) {
     setenv("ROOT_FILENAME", argv[2], 1);
   }
   else {
-    setenv("COMPTON_E_TH", "0.0", 1);
-    setenv("ROOT_FILENAME", "/home/rafal/Projekty/gojaRM/output/output_side.root", 1);
+    setenv("COMPTON_E_TH", "0.2", 1);
+    setenv("ROOT_FILENAME", "/home/rafal/Projekty/gojaRM/output/output_side_new.root", 1);
   }
   
   MyHits h;
