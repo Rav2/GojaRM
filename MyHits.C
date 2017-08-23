@@ -36,28 +36,28 @@ MyHits::~MyHits()
 TLorentzVector MyHits::CalculateNewHitPoints(TLorentzVector h, const TLorentzVector source)
 {
     TLorentzVector r(h.X()-source.X(), h.Y()-source.Y(), h.Z()-source.Z(), 0.0);
-    double rx = r.X();
-    double ry = r.Y();
-    double rz = r.Z();
-    double xs = source.X();
-    double ys = source.Y();
-    double zs = source.Z();
-    double Rs2 = (xs*xs+ys*ys);
-    double delta = 4*((xs*rx+ys*ry)*(xs*rx+ys*ry) -  (rx*rx+ry*ry)*(Rs2-R*R));
-    double s = (-2*((xs*rx+ys*ry))+TMath::Sqrt(delta))/2.0/(rx*rx+ry*ry);
-//    cout<<"Rs="<<TMath::Sqrt(Rs2)<<" R="<<R<<" ";
-//    cout<<"delta="<<delta<<" s="<<s<<" ";
-    TLorentzVector hh = r*s + source;
-//    cout<<TMath::Abs(hh.Mag())<<" ";
-    if(TMath::Abs(hh.Z()) > L/2.0)
-    {
-//        cout<<"W IFIE! ";
-        hh.SetX(0);
-        hh.SetY(0);
-        hh.SetZ(0);
-        hh.SetT(0);
-    }
-    else
+       double rx = r.X();
+       double ry = r.Y();
+       double rz = r.Z();
+       double xs = source.X();
+       double ys = source.Y();
+       double zs = source.Z();
+       double Rs2 = (xs*xs+ys*ys);
+       double delta = 4*((xs*rx+ys*ry)*(xs*rx+ys*ry) -  (rx*rx+ry*ry)*(Rs2-R*R));
+       double s = (-2*((xs*rx+ys*ry))+TMath::Sqrt(delta))/2.0/(rx*rx+ry*ry);
+   //    cout<<"Rs="<<TMath::Sqrt(Rs2)<<" R="<<R<<" ";
+   //    cout<<"delta="<<delta<<" s="<<s<<" ";
+       TLorentzVector hh = r*s + source;
+   //    cout<<TMath::Abs(hh.Mag())<<" ";
+       if(TMath::Abs(hh.Z()) > L/2.0)
+       {
+   //        cout<<"W IFIE! ";
+           hh.SetX(0);
+           hh.SetY(0);
+           hh.SetZ(0);
+           hh.SetT(0);
+         }
+//    else
         ;//cout<<"Poza ifem ";
     return hh;
 }
@@ -126,6 +126,7 @@ void MyHits::Loop() {
 
       if (last_eventID==eventID)
       {
+
         if (hit_is_proper)
         {
            //wypelnianie tablicy hits kandydatami na koincydencje
@@ -133,11 +134,11 @@ void MyHits::Loop() {
             TLorentzVector v10(h.posX, h.posY, h.posZ, 0.0);
             TLorentzVector source(h.sourcePosX, h.sourcePosY, h.sourcePosZ, 0.0);
             TLorentzVector v1 = v10-source;
-            v10 = CalculateNewHitPoints(v10, source);
+            v10 = CalculateNewHitPoints(v10, source); //korekcja hit pointow
             double cc = 0;
             double dd = 250;
-            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
-//            if(v10.Mag() != 0)
+//            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
+            if(!(v10.X()==0 && v10.Y()==0 && v10.Z()==0 && v10.T()==0))
             {
                 hPhi->Fill(v10.Phi());
                 hCosTheta->Fill(v10.CosTheta());
@@ -167,8 +168,8 @@ void MyHits::Loop() {
             v10 = CalculateNewHitPoints(v10, source);
             double cc = 0;
             double dd = 250;
-            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
-//            if(v10.Mag() != 0)
+//            if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
+            if(!(v10.X()==0 && v10.Y()==0 && v10.Z()==0 && v10.T()==0))
             {
                 hPhi->Fill(v10.Phi());
                 hCosTheta->Fill(v10.CosTheta());
@@ -176,6 +177,7 @@ void MyHits::Loop() {
                 hTheta->Fill(v10.Theta());
                 hEdep->Fill(h.edep);
             }
+
         }
       }
 
@@ -218,7 +220,7 @@ void MyHits::Loop() {
       h.nCrystalRayleigh = nCrystalRayleigh;
 
       double d = sqrt(h.posX*h.posX + h.posY*h.posY); // distance between the hit and the main axis of the scanner - chose only hits from strips
-      bool hit_is_proper = h.edep>COMPTON_E_TH_0 and (h.processName=="Compton" or h.processName=="compt") and h.nPhantomRayleigh==0 and h.nCrystalRayleigh==0 and PDGEncoding==22;
+      bool hit_is_proper = h.edep>COMPTON_E_TH_0 and (h.processName=="Compton" or h.processName=="compt");// and h.nPhantomRayleigh==0 and h.nCrystalRayleigh==0 and PDGEncoding==22;
 //       bool hit_is_proper = h.edep>COMPTON_E_TH_0 and d>R_inner and PDGEncoding==22;
 
       if (fabs(last_time-time)<TIME_WINDOW)
@@ -237,7 +239,7 @@ void MyHits::Loop() {
               if((v10.Z()>-dd && v10.Z()<-cc) || (v10.Z()>cc && v10.Z()<dd) && v10.Mag() != 0)
 //              if(v10.Mag() != 0)
               {
-                  hPhi->Fill(v10.Phi()); //wzgledem zrodla
+                  hPhi->Fill(v10.Phi()); //wzgledem srodka
                   hCosTheta->Fill(v10.CosTheta()); //wzgledem srodka
                   hPos->Fill(v10.X(), v10.Y(), v10.Z()); //wzgledem srodka
                   hTheta->Fill(v10.Theta()); //wzgledem srodka

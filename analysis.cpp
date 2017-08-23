@@ -23,7 +23,7 @@ void drawPhi(TH1F* hPhi, TH1F* hRootPhi)
 
     TCanvas* cphi = new TCanvas("cphi", "cphi", 600, 800);
     cphi->Divide(1,2);
-    TLegend* legPhi = new TLegend(0.15, 0.6, 0.35, 0.8);
+    TLegend* legPhi = new TLegend(0.15, 0.2, 0.35, 0.4);
     cphi->cd(1);
     hPhi->Scale(1.0/hPhi->Integral());
     hPhi->SetLineColor(kBlue);
@@ -70,7 +70,7 @@ void drawCosTheta(TH1F* hCosTheta, TH1F* hRootCosTheta)
 
     TCanvas* ccostheta = new TCanvas("ccostheta", "ccostheta", 600, 800);
     ccostheta->Divide(1,2);
-    TLegend* legCosTheta = new TLegend(0.35, 0.2, 0.65, 0.5);
+    TLegend* legCosTheta = new TLegend(0.10, 0.65, 0.30, 0.85);
     ccostheta->cd(1);
     hCosTheta->Scale(1.0/hCosTheta->Integral());
     hCosTheta->SetLineColor(kBlue);
@@ -82,7 +82,7 @@ void drawCosTheta(TH1F* hCosTheta, TH1F* hRootCosTheta)
     hRootCosTheta->SetLineWidth(2);
     hRootCosTheta->Draw("same");
     legCosTheta -> AddEntry(hRootCosTheta, "ROOT");
-//    legCosTheta->Draw();
+    legCosTheta->Draw();
     ccostheta->cd(2);
     TH1F* hCosThetaDiff = new TH1F("hCosThetaDiff", "hCosThetaDiff", 100, -1.1, 1.1);
     hCosThetaDiff->GetXaxis()->SetTitle("cos(#theta)");
@@ -110,12 +110,12 @@ void drawCosTheta(TH1F* hCosTheta, TH1F* hRootCosTheta)
 
 void drawTheta(TH1F* hTheta, TH1F* hRootTheta)
 {
-    ////// ***********DRAWING COS THETA****************************
+    ////// ***********DRAWING THETA****************************
     hTheta->GetXaxis()->SetTitle("#theta");
 
     TCanvas* ctheta = new TCanvas("ctheta", "ctheta", 600, 800);
     ctheta->Divide(1,2);
-    TLegend* legTheta = new TLegend(0.35, 0.2, 0.65, 0.5);
+    TLegend* legTheta = new TLegend(0.15, 0.6, 0.35, 0.9);
     ctheta->cd(1);
     hTheta->Scale(1.0/hTheta->Integral());
     hTheta->SetLineColor(kBlue);
@@ -127,7 +127,7 @@ void drawTheta(TH1F* hTheta, TH1F* hRootTheta)
     hRootTheta->SetLineWidth(2);
     hRootTheta->Draw("same");
     legTheta -> AddEntry(hRootTheta, "ROOT");
-//    legCosTheta->Draw();
+    legTheta->Draw();
     ctheta->cd(2);
     TH1F* hThetaDiff = new TH1F("hThetaDiff", "hThetaDiff", 100, -0.2, TMath::Pi()+0.2);
     hThetaDiff->GetXaxis()->SetTitle("#theta");
@@ -160,7 +160,7 @@ void drawRelAngle(TH1F* h12, TH1F* hRoot12)
 
     TCanvas* cRelAngles = new TCanvas("cRelAngles", "cRelAngles", 600, 800);
     cRelAngles->Divide(1,2);
-    TLegend* legRelAngles = new TLegend(0.65, 0.2, 0.95, 0.5);
+    TLegend* legRelAngles = new TLegend(0.65, 0.2, 0.85, 0.3);
     cRelAngles->cd(1);
     h12->Scale(1.0/h12->Integral());
     h12->SetLineColor(kBlue);
@@ -286,7 +286,7 @@ void drawEdep(TH1F* hEdep, TH1F* hRootEdepPre)
 {
     TCanvas* cEdepPre = new TCanvas("cEdepPre", "WITHOUT SMEAR", 600, 800);
     cEdepPre->Divide(1,2);
-    TLegend* legEdep = new TLegend(0.15, 0.65, 0.45, 0.95);
+    TLegend* legEdep = new TLegend(0.25, 0.65, 0.45, 0.85);
     cEdepPre->cd(1);
 
     hEdep->Scale(1.0/hEdep->Integral());
@@ -318,7 +318,7 @@ void drawEdep(TH1F* hEdep, TH1F* hRootEdepPre)
     hEdepPreDiff->SetMarkerStyle(21);
     hEdepPreDiff->Sumw2();
     hEdepPreDiff->Draw("E");
-    TLine* line = new TLine(0.0, 0.0, 0.4, 0.0);
+    TLine* line = new TLine(0.0, 0.0, 1.0, 0.0);
     line->SetLineColor(kRed);
     line->SetLineWidth(2);
     line->Draw("same");
@@ -337,7 +337,7 @@ int main (int argc, char* argv[]) {
   }
   else {
     setenv("COMPTON_E_TH", "0.2", 1);
-    setenv("ROOT_FILENAME", "/home/rafal/Projekty/gojaRM/output/output_side_new.root", 1);
+    setenv("ROOT_FILENAME", "/home/rafal/Projekty/gojaRM/output/output.root", 1);
   }
   
   MyHits h;
